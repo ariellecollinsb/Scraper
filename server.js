@@ -2,9 +2,7 @@ var express = require("express");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 
-// Our scraping tools
-// Axios is a promised-based http library, similar to jQuery's Ajax method
-// It works on the client and on the server
+//Scraping tools
 var axios = require("axios");
 var cheerio = require("cheerio");
 
@@ -51,15 +49,12 @@ app.get("/scrape", function(req, res) {
             // Create a new Article using the `result` object built from scraping
             db.Article.create(result)
                 .then(function(dbArticle) {
-                    // View the added result in the console
                     console.log(dbArticle);
                 })
                 .catch(function(err) {
-                    // If an error occurred, log it
                     res.json(err);
                 });
         });
-        // Send a message to the client
         console.log()
         res.send("Scrape Complete");
     });
@@ -91,7 +86,7 @@ app.get("/comment", function(req, res) {
             res.json(err);
         });
 });
-// Route for grabbing a specific Article by id, populate it with it's note
+// Route for grabbing a specific Article by id, populate it with it's comment
 app.get("/article/:id", function(req, res) {
     var id = req.params.id
     db.articles.findById(id)
@@ -104,22 +99,29 @@ app.get("/article/:id", function(req, res) {
         });
 });
 
-// Finish the route so it finds one article using the req.params.id,
-// and run the populate method with "note",
-// then responds with the article with the note included
 
 
-// Route for saving/updating an Article's associated Note
+// Route for saving/updating an Article's associated comment
 app.post("/article/:id", function(req, res) {
-    // TODO
-    // ====
-    // save the new note that gets posted to the Notes collection
-    // then find an article from the req.params.id
-    // and update it's "note" property with the _id of the new note
+
+
+    app.post("/submit", function(req, res) {
+        // Create a new Note in the db
+        db.Comment.create(req.body)
+            .then(function(dbComment) {
+                var id = req.params.id
+                return db.articles.findOneAndUpdate({}, { $push: { comment: dbComment._id } }, { new: true });
+            })
+            .then(function(dbUser) {
+                res.json(dbUser);
+            })
+            .catch(function(err) {
+                res.json(err);
+            });
+    });
+
 });
 
-
-// Start the server
 app.listen(PORT, function() {
     console.log("App running on port " + PORT + "!");
 });
