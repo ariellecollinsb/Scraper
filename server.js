@@ -47,7 +47,7 @@ app.get("/scrape", function(req, res) {
             result.title = $(this).children("div.card_headline").text().trim();
             result.image = $(this).children("a.card_image_src").attr("href");
             result.blurb = $(this).children("a.card_link").attr("href");
-            result.name = $(this).children("div.author_list").text().trim();
+            result.author = $(this).children("div.author_list").text().trim();
             // Create a new Article using the `result` object built from scraping
             db.Article.create(result)
                 .then(function(dbArticle) {

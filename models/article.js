@@ -12,16 +12,26 @@ var ArticleSchema = new Schema({
         required: true
     },
     // `link` is required and of type String
-    link: {
+    image: {
         type: String,
         required: true
     },
-    // `note` is an object that stores a Note id
-    // The ref property links the ObjectId to the Note model
-    // This allows us to populate the Article with an associated Note
-    note: {
+
+    blurb: {
+        type: String,
+        required: true
+    },
+    // `link` is required and of type String
+    author: {
+        type: String,
+        required: true
+    },
+    // `comments` is an object that stores a comment id
+    // The ref property links the ObjectId to the comment model
+    // This allows us to populate the Article with an associated comment
+    comment: {
         type: Schema.Types.ObjectId,
-        ref: "Note"
+        ref: "Comment"
     }
 });
 
