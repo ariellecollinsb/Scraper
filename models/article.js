@@ -18,8 +18,7 @@ var ArticleSchema = new Schema({
         required: true
     },
     author: {
-        type: String,
-        required: true
+        type: String
     },
     comment: {
         type: Schema.Types.ObjectId,

@@ -1,7 +1,7 @@
 // Grab the articles as a json
 $.getJSON("/article", function(data) {
     for (var i = 0; i < data.length; i++) {
-        $("#article").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
+        $("#article").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].blurb + "<br />" + data[i].image + "<br />" + data[i].author + "</p>");
     }
 });
 
@@ -13,7 +13,7 @@ $(document).on("click", "p", function() {
     // Now make an ajax call for the Article
     $.ajax({
             method: "GET",
-            url: "/articles/" + thisId
+            url: "/article/" + thisId
         })
         // With that done, add the note information to the page
         .then(function(data) {
@@ -36,7 +36,7 @@ $(document).on("click", "#savecomment", function() {
     var thisId = $(this).attr("data-id");
     $.ajax({
             method: "POST",
-            url: "/articles/" + thisId,
+            url: "/article/" + thisId,
             data: {
                 title: $("#titleinput").val(),
                 body: $("#bodyinput").val(),
