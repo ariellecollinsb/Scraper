@@ -10,12 +10,15 @@ body {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    padding-top: 5%;
     background-color: #818181;
 }
 
+#handlebars {
+    padding: 20px;
+}
+
 .jumbotron {
-    height: 400px;
+    height: 250px;
     background-image: url(./Images/scraper.7.png);
     background-size: cover;
 }
@@ -33,6 +36,11 @@ body {
     overflow: auto;
     width: 60%;
     height: 700px;
+}
+
+.btn {
+    color: #fff;
+    font-weight: 500;
 }
 
 input.form-control {

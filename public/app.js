@@ -1,12 +1,11 @@
 // Grab the articles as a json
+/*
 $.getJSON("/article", function(data) {
     for (var i = 0; i < data.length; i++) {
         $("#article").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].blurb + "<br />" + data[i].image + "<br />" + data[i].author + "</p>");
     }
 });
-
-
-$(document).on("click", "p", function() {
+$(document).on("click", "a", function() {
     $("#comments").empty();
     var thisId = $(this).attr("data-id");
 
@@ -30,10 +29,13 @@ $(document).on("click", "p", function() {
             }
         });
 });
-
+*/
 // When you click the savenote button
-$(document).on("click", "#savecomment", function() {
+$(document).on("click", "#saveComment", function(event) {
+
+    event.preventDefault();
     var thisId = $(this).attr("data-id");
+    console.log(thisId);
     $.ajax({
             method: "POST",
             url: "/article/" + thisId,
@@ -43,8 +45,7 @@ $(document).on("click", "#savecomment", function() {
             }
         })
         .then(function(data) {
-            console.log(data);
-            $("#notes").empty();
+            location.reload();
         });
 
     $("#titleinput").val("");

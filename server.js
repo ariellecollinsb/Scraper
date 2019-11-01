@@ -61,7 +61,7 @@ app.get("/scrape", function(req, res) {
 app.get("/", function(req, res) {
     db.Article.find({})
         .then(function(articles) {
-            res.render("article", { article: articles });
+            res.render("index", { article: articles });
         })
         .catch(function(err) {
             res.json(err);
@@ -69,11 +69,12 @@ app.get("/", function(req, res) {
 });
 
 //get article by id + populate comment
-app.get("/article", function(req, res) {
-    db.articles.findOne({ _id: req.params.id })
+app.get("/article/:id", function(req, res) {
+    db.Article.findOne({ _id: req.params.id })
         .populate("comment")
         .then(function(article) {
-            res.json(article);
+            console.log(article);
+            res.render("article", { article: article });
         })
         .catch(function(err) {
             res.json(err);
