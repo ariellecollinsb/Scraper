@@ -1,8 +1,8 @@
 body {
-    color: #E5E5E5;
+    color: #fff;
     margin-left: auto;
     margin-right: auto;
-    background-color: #004;
+    background-color: #353535;
 }
 
 #wrapper {
@@ -11,15 +11,13 @@ body {
     margin-left: auto;
     margin-right: auto;
     padding-top: 5%;
-    background-color: #004;
+    background-color: #818181;
 }
 
-#header {
-    border-bottom: 5px solid #ccc;
-}
-
-.sub-header {
-    font-weight: 400;
+.jumbotron {
+    height: 400px;
+    background-image: url(./Images/scraper.7.png);
+    background-size: cover;
 }
 
 .comment-header {
@@ -40,13 +38,13 @@ body {
 input.form-control {
     height: 36px;
     font-size: 24px;
-    background-color: #c7cfe8;
+    background-color: #fff;
 }
 
 textarea.form-control {
     height: 200px;
     font-size: 18px;
-    background-color: #c7cfe8;
+    background-color: #fff;
 }
 
 .footer {
@@ -56,5 +54,5 @@ textarea.form-control {
     width: 100%;
     border-top: 5px solid #ccc;
     background-color: #30374c;
-    color: #E5E5E5;
+    color: #fff;
 }
