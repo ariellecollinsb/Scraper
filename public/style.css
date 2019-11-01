@@ -28,7 +28,7 @@ body {
 }
 
 #handlebars {
-    text-align: justify;
+    text-align: center;
 }
 
 #article {
@@ -60,7 +60,7 @@ textarea.form-control {
     padding-top: 20px;
     padding-bottom: 20px;
     width: 100%;
-    border-top: 5px solid #ccc;
-    background-color: #30374c;
+    border-top: 2px solid #818181;
+    background-color: #353535;
     color: #fff;
 }

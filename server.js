@@ -47,10 +47,7 @@ app.get("/scrape", function(req, res) {
                         });
                 }
             });
-            //create new article using result object
 
-
-            //console.log(result);
         });
         console.log()
         res.send("Scrape Complete");

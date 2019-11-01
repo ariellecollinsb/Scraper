@@ -1,26 +1,20 @@
 // Grab the articles as a json
-/*
-$.getJSON("/article", function(data) {
-    for (var i = 0; i < data.length; i++) {
-        $("#article").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].blurb + "<br />" + data[i].image + "<br />" + data[i].author + "</p>");
-    }
-});
-$(document).on("click", "a", function() {
-    $("#comments").empty();
-    var thisId = $(this).attr("data-id");
 
-    // Now make an ajax call for the Article
-    $.ajax({
-            method: "GET",
-            url: "/article/" + thisId
-        })
-        // With that done, add the note information to the page
-        .then(function(data) {
-            console.log(data);
-            $("#comments").append("<h2>" + data.title + "</h2>");
-            $("#comments").append("<input id='titleinput' name='title' >");
-            $("#comments").append("<textarea id='bodyinput' name='body'></textarea>");
-            $("#comments").append("<button data-id='" + data._id + "' id='savecomment'>Save Comment</button>");
+
+$(document).on("click", "scrape", function() {
+    axios.get("http://www.huffpost.com/").then(function(response) {
+        var $ = cheerio.load(response.data);
+        // console.log(response.data);
+
+        $(".js-zone-twilight div.card__content").each(function(i, element) {
+            //console.log($(this));
+            var result = {};
+
+            result.title = $(this).find("div.card__headline__text").text().trim();
+            result.image = $(this).find("img.card__image__src").attr("src");
+            result.blurb = $(this).find("a.card__link").text().trim();
+            result.author = $(this).find("a.yr-author-name").text().trim();
+
 
             // If there's a note in the article
             if (data.comment) {
@@ -28,9 +22,10 @@ $(document).on("click", "a", function() {
                 $("#bodyinput").val(data.comment.body);
             }
         });
+    });
 });
-*/
-// When you click the savenote button
+
+// When you click the savecomment button
 $(document).on("click", "#saveComment", function(event) {
 
     event.preventDefault();
