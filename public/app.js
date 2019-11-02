@@ -1,45 +1,46 @@
 // Grab the articles as a json
 
 
-$(document).on("click", "scrape", function() {
-    axios.get("http://www.huffpost.com/").then(function(response) {
-        var $ = cheerio.load(response.data);
-        // console.log(response.data);
+// $(document).on("click", "#scrape", function() {
+//     event.preventDefault();
+//     $.get("http://www.huffpost.com/").then(function(response) {
+//         console.log(response);
 
-        $(".js-zone-twilight div.card__content").each(function(i, element) {
-            //console.log($(this));
-            var result = {};
-
-            result.title = $(this).find("div.card__headline__text").text().trim();
-            result.image = $(this).find("img.card__image__src").attr("src");
-            result.blurb = $(this).find("a.card__link").text().trim();
-            result.author = $(this).find("a.yr-author-name").text().trim();
+//         var $ = cheerio.load(response.data);
 
 
-            // If there's a note in the article
-            if (data.comment) {
-                $("#titleinput").val(data.comment.title);
-                $("#bodyinput").val(data.comment.body);
-            }
+$("#scrape").on("click", function (event) {
+    event.preventDefault();
+
+    $("#scrape").text("Scraping...");
+    $.getJSON("/scrape").then(function (response) {
+        $("#scrape").text("Scrape Complete");
+        $('#scrapeModal .modal-body').text(`${response.count} new articles scraped.`);
+
+        $('#scrapeModal').modal('show');
+        $('#scrapeModal').on('hidden.bs.modal', function (e) {
+            location.reload();
         });
+        
     });
+
+
 });
 
 // When you click the savecomment button
-$(document).on("click", "#saveComment", function(event) {
+$(document).on("click", "#saveComment", function (event) {
 
     event.preventDefault();
     var thisId = $(this).attr("data-id");
-    console.log(thisId);
     $.ajax({
-            method: "POST",
-            url: "/article/" + thisId,
-            data: {
-                title: $("#titleinput").val(),
-                body: $("#bodyinput").val(),
-            }
-        })
-        .then(function(data) {
+        method: "POST",
+        url: "/article/" + thisId,
+        data: {
+            title: $("#titleinput").val(),
+            body: $("#bodyinput").val(),
+        }
+    })
+        .then(function (data) {
             location.reload();
         });
 

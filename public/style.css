@@ -38,6 +38,9 @@ body {
     height: 700px;
 }
 
+#scrapeModal {
+    color: #000;
+}
 .btn {
     color: #fff;
     font-weight: 500;

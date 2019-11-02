@@ -2,12 +2,13 @@ var express = require("express");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 var exphbs = require("express-handlebars");
+var async = require('async'); 
 
 //Scraping tools
 var axios = require("axios");
 var cheerio = require("cheerio");
 var db = require("./models");
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
 var app = express();
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 
@@ -24,33 +25,43 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 app.get("/scrape", function(req, res) {
     axios.get("http://www.huffpost.com/").then(function(response) {
         var $ = cheerio.load(response.data);
-        // console.log(response.data);
 
+        var newArticles = 0;
+        var results = [];
         $(".js-zone-twilight div.card__content").each(function(i, element) {
-            //console.log($(this));
             var result = {};
-
             result.title = $(this).find("div.card__headline__text").text().trim();
             result.image = $(this).find("img.card__image__src").attr("src");
             result.blurb = $(this).find("a.card__link").text().trim();
             result.author = $(this).find("a.yr-author-name").text().trim();
-
-
-            db.Article.count({ title: result.title }, function(err, count) {
-                if (count === 0) {
-                    db.Article.create(result)
-                        .then(function(dbArticle) {
-                            console.log(dbArticle);
-                        })
-                        .catch(function(err) {
-                            console.log(err);
-                        });
-                }
-            });
-
+            results.push(result);
         });
-        console.log()
-        res.send("Scrape Complete");
+
+        // https://stackoverflow.com/a/10552398
+        var calls = [];
+        results.forEach(function(result) {
+            calls.push(function(callback){
+                db.Article.count({ title: result.title }, function(err, count) {
+                    if (count === 0) {
+                        db.Article.create(result)
+                            .then(function(dbArticle) {
+                                newArticles++;
+                                callback(null, result);
+                            })
+                            .catch(function(err) {
+                                return callback(err);
+                            });
+                    } else {
+                        callback(null, result);
+                    }
+                });
+            });
+        });
+
+        async.parallel(calls, function(err, result) {
+            if (err) { return console.log(err); }
+            res.json({count: newArticles});
+        });
     });
 });
 
