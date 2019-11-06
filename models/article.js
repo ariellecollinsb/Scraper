@@ -20,10 +20,14 @@ var ArticleSchema = new Schema({
     author: {
         type: String
     },
-    comment: {
-        type: Schema.Types.ObjectId,
-        ref: "Comment"
-    }
+    url: {
+        type: String,
+        required: true
+    },
+    comment: [{
+        title: {type: String},
+        body: {type: String}
+    }]
 });
 
 

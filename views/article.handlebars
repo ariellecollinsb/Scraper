@@ -8,14 +8,15 @@
 
   <hr>
 </div>
-{{#if article.comment}}
+{{#each article.comment}}
 <div>
-  <h1>Comment</h1>
-  <h3>{{article.comment.title}}</h3>
-  <p>{{article.comment.body}}</p>
+  <h3>Comment</h3>
+  <h3>{{title}}</h3>
+  <p>{{body}}</p>
+  <button type="delete" id="deleteComment" data-ArticleId="{{@root.article._id}}" data-CommentId="{{_id}}">Delete</button>
 </div>
-{{/if}}
-{{#unless article.comment}}
+{{/each}}
+
 <h4>Add a Comment</h4>
 <form>
   <div class="form-group">
@@ -28,4 +29,3 @@
     <button type="submit" id="saveComment" data-id="{{article._id}}">Comment</button>
   </div>
 </form>
-{{/unless}}

@@ -1,13 +1,3 @@
-// Grab the articles as a json
-
-
-// $(document).on("click", "#scrape", function() {
-//     event.preventDefault();
-//     $.get("http://www.huffpost.com/").then(function(response) {
-//         console.log(response);
-
-//         var $ = cheerio.load(response.data);
-
 
 $("#scrape").on("click", function (event) {
     event.preventDefault();
@@ -46,4 +36,17 @@ $(document).on("click", "#saveComment", function (event) {
 
     $("#titleinput").val("");
     $("#bodyinput").val("");
+});
+
+$(document).on("click", "#deleteComment", function (event) {
+    event.preventDefault();
+    var dataId = $(this).attr("data-ArticleId") +"/"+ $(this).attr("data-CommentId");
+    $.ajax({
+        method: "DELETE",
+        url: "/article/" + dataId, 
+    })
+        .then(function (data) {
+            location.reload();
+        });
+
 });
