@@ -35,7 +35,7 @@ app.get("/scrape", function (req, res) {
                 image: $(this).find(".dd-card-leadart").attr("src"),
                 blurb: $(this).find(".dd-card-summary").text().trim(),
                 author: $(this).find(".dd-card-byline").text().trim(),
-                url: $(this).find(".dd-card-headline").attr("href")
+                url: $(this).find(".dd-card-leadart-container > a").attr("href")
             })
         });
         console.log(results);
