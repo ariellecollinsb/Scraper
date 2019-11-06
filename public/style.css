@@ -23,6 +23,10 @@ body {
     background-size: cover;
 }
 
+img {
+    width: 100%;
+}
+
 .comment-header {
     text-align: center;
 }
